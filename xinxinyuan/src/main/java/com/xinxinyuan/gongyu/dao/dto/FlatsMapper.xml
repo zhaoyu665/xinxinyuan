@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dao.mapper.FlatsMapper">
+    <sql id="Base_Column_List">
+		area_code, area_name, area_level, parent_code, language_code, create_time,
+		create_id,
+		update_time, update_id, delete_flag
+	</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List" />
+        from base_area
+        where area_code = #{areaCode,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from base_area
+		where area_code = #{areaCode,jdbcType=BIGINT}
+	</delete>
+    <insert id="insert"
+            parameterType="com.jumore.jttcenter.dao.entity.systemBase.BaseAreaPO">
+		insert into base_area (area_code, area_name, area_level,
+		parent_code, language_code, create_time,
+		create_id, update_time, update_id,
+		delete_flag)
+		values (#{areaCode,jdbcType=BIGINT}, #{areaName,jdbcType=VARCHAR},
+		#{areaLevel,jdbcType=BIGINT},
+		#{parentCode,jdbcType=BIGINT}, #{languageCode,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
+		#{createId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP},
+		#{updateId,jdbcType=BIGINT},
+		#{deleteFlag,jdbcType=VARCHAR})
+	</insert>
+    <insert id="insertSelective"
+            parameterType="com.jumore.jttcenter.dao.entity.systemBase.BaseAreaPO">
+        insert into base_area
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="areaCode != null">
+                area_code,
+            </if>
+            <if test="areaName != null">
+                area_name,
+            </if>
+            <if test="areaLevel != null">
+                area_level,
+            </if>
+            <if test="parentCode != null">
+                parent_code,
+            </if>
+            <if test="languageCode != null">
+                language_code,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createId != null">
+                create_id,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="updateId != null">
+                update_id,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="areaCode != null">
+                #{areaCode,jdbcType=BIGINT},
+            </if>
+            <if test="areaName != null">
+                #{areaName,jdbcType=VARCHAR},
+            </if>
+            <if test="areaLevel != null">
+                #{areaLevel,jdbcType=BIGINT},
+            </if>
+            <if test="parentCode != null">
+                #{parentCode,jdbcType=BIGINT},
+            </if>
+            <if test="languageCode != null">
+                #{languageCode,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createId != null">
+                #{createId,jdbcType=BIGINT},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateId != null">
+                #{updateId,jdbcType=BIGINT},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.jumore.jttcenter.dao.entity.systemBase.BaseAreaPO">
+        update base_area
+        <set>
+            <if test="areaName != null">
+                area_name = #{areaName,jdbcType=VARCHAR},
+            </if>
+            <if test="areaLevel != null">
+                area_level = #{areaLevel,jdbcType=BIGINT},
+            </if>
+            <if test="parentCode != null">
+                parent_code = #{parentCode,jdbcType=BIGINT},
+            </if>
+            <if test="languageCode != null">
+                language_code = #{languageCode,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createId != null">
+                create_id = #{createId,jdbcType=BIGINT},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateId != null">
+                update_id = #{updateId,jdbcType=BIGINT},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where area_code = #{areaCode,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.jumore.jttcenter.dao.entity.systemBase.BaseAreaPO">
+		update base_area
+		set area_name = #{areaName,jdbcType=VARCHAR},
+		area_level = #{areaLevel,jdbcType=BIGINT},
+		parent_code = #{parentCode,jdbcType=BIGINT},
+		language_code = #{languageCode,jdbcType=BIGINT},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		create_id = #{createId,jdbcType=BIGINT},
+		update_time = #{updateTime,jdbcType=TIMESTAMP},
+		update_id = #{updateId,jdbcType=BIGINT},
+		delete_flag = #{deleteFlag,jdbcType=VARCHAR}
+		where area_code = #{areaCode,jdbcType=BIGINT}
+	</update>
+
+    <select id="getProvince" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from base_area
+        where area_level = '2'
+    </select>
+
+    <select id="getCityByParentCode" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from base_area
+        where parent_code = #{parentCode}
+    </select>
+
+<select id="selectFlats" resultType="Flats" paramterType="map">
+    SELECT
+      *
+    FROM
+      gongyu_flats
+    <where>
+        <if test="name !=null and name !=''">
+            flats_name=#{lasjdhf,jdbcType=VARCHAR}
+        </if><if test="age !=null and age !=''">
+            id=#{name,jdbcType=VARCHAR}
+        </if><if test="high !=null and high !=''">
+            age=#{name,jdbcType=VARCHAR}
+        </if><if test="id !=null and id !=''">
+            high=#{name,jdbcType=VARCHAR}
+        </if>
+    </where>
+
+</select>
+
+
+</mapper>
